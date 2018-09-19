@@ -14,3 +14,10 @@ def train_test_split(X, y, test_size=0.2):
     print(len(test_indices))
     '''
     return X[train_indices, :], X[test_indices, :], y[train_indices], y[test_indices]
+
+def mse(target, predictions):
+    return np.mean(np.sum(np.square(target - predictions)))
+
+def r_squared(target, predictions):
+    mean_target = np.mean(target)
+    return 1 - (np.sum(np.square(target - predictions)))/(np.sum(np.square(target - mean_target)))
