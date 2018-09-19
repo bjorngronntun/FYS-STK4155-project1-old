@@ -8,11 +8,11 @@ def FrankeFunction(x,y):
     term4 = -0.2*np.exp(-(9*x-4)**2 - (9*y-7)**2)
     return term1 + term2 + term3 + term4
 
-def generate_test_data(data_points):
+def generate_test_data(data_points, noise_scale):
     x = np.random.uniform(high=0, low=1, size=data_points)
     y = np.random.uniform(high=0, low=1, size=data_points)
-    # Noise?
-    z = FrankeFunction(x, y)
+    additive_noise = np.random.normal(loc=0, scale=noise_scale, size=data_points)
+    z = FrankeFunction(x, y) + additive_noise
     return np.c_[x, y], z
 
 '''
