@@ -1,19 +1,6 @@
 import numpy as np
 from random import shuffle
-def train_test_split(X, y, test_size=0.2):
-    data_points = X.shape[0]
-    train_points = int(data_points*(1 - test_size))
-    indices = list(range(data_points))
-    shuffle(indices)
-    train_indices = indices[:train_points]
-    test_indices = indices[train_points:]
-    '''
-    print(train_indices)
-    print(test_indices)
-    print(len(train_indices))
-    print(len(test_indices))
-    '''
-    return X[train_indices, :], X[test_indices, :], y[train_indices], y[test_indices]
+from resampling import k_fold_split
 
 def mse(target, predictions):
     return np.mean(np.sum(np.square(target - predictions)))
@@ -21,3 +8,13 @@ def mse(target, predictions):
 def r_squared(target, predictions):
     mean_target = np.mean(target)
     return 1 - (np.sum(np.square(target - predictions)))/(np.sum(np.square(target - mean_target)))
+
+def cross_val_mse(regressor, X, target, folds = 5):
+    list_of_folds = k_fold_split(X, target, folds)
+    computed_values = np.zeros(len(list_of_folds))
+    for j, fold in enumerate(list_of_folds):
+        regressor.fit(fold['train_X'], fold['train_y'])
+        predictions = regressor.predict(fold['test_X'])
+        new_mse = mse(fold['test_y'], predictions)
+        computed_values[j] = new_mse
+    return np.mean(computed_values)
