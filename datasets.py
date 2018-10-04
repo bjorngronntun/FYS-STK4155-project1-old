@@ -1,4 +1,5 @@
 import numpy as np
+from imageio import imread
 
 # The Franke function:
 def FrankeFunction(x,y):
@@ -15,6 +16,15 @@ def generate_test_data(data_points, noise_scale):
     z = FrankeFunction(x, y) + additive_noise
     return np.c_[x, y], z
 
+def load_map_data(filename):
+    terrain = imread(filename)
+    m, n = terrain.shape
+    y_indices = range(m)
+    x_indices = range(n)
+    x, y = np.meshgrid(x_indices, y_indices)
+    x = x.reshape(-1)
+    y = y.reshape(-1)
+    return np.c_[x, y], terrain
 '''
 data, target = generate_test_data(10)
 print('Data:', data)
