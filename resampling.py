@@ -26,7 +26,7 @@ def k_fold_split(X, y, folds = 5):
     for k in range(folds - 1):
         fold_indices = indices[k*fold_size : (k + 1)*fold_size]
         non_fold_indices = indices[0: k*fold_size] + indices[(k + 1)*fold_size:]
-        print(fold_indices)
+
         list_of_folds.append({
             'test_X': X[fold_indices, :],
             'test_y': y[fold_indices],
@@ -35,7 +35,7 @@ def k_fold_split(X, y, folds = 5):
         })
         # list_of_folds.append((X[fold_indices, :], y[fold_indices]))
     last_fold_indices = indices[(folds - 1)*fold_size : ]
-    print(last_fold_indices)
+    
     last_non_fold_indices = indices[: folds*fold_size]
     list_of_folds.append({
         'test_X': X[last_fold_indices, :],
